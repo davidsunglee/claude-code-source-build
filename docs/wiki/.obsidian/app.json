@@ -2,5 +2,6 @@
   "focusNewTab": false,
   "readableLineLength": false,
   "strictLineBreaks": false,
-  "showLineNumber": false
+  "showLineNumber": false,
+  "defaultViewMode": "preview"
 }

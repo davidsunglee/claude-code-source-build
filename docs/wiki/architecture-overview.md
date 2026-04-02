@@ -8,20 +8,20 @@ Claude Code is an AI-powered command-line interface that pairs the Claude langua
 
 ```mermaid
 flowchart TD
-    U[User Input / stdin] --> CLI[CLI Entry\nsetup.ts · main.tsx]
-    CLI --> CMD[Command Dispatch\ncommands.ts]
-    CLI --> REPL[REPL Launcher\nreplLauncher.tsx]
-    CMD --> QE[Query Engine\nQueryEngine.ts · query.ts]
+    U[User Input / stdin] --> CLI["CLI Entry<br/>setup.ts · main.tsx"]
+    CLI --> CMD["Command Dispatch<br/>commands.ts"]
+    CLI --> REPL["REPL Launcher<br/>replLauncher.tsx"]
+    CMD --> QE["Query Engine<br/>QueryEngine.ts · query.ts"]
     REPL --> QE
-    QE --> API[Claude API\nservices/api/]
+    QE --> API["Claude API<br/>services/api/"]
     API --> QE
-    QE --> TOOLS[Tool Execution\ntools/ · services/tools/]
+    QE --> TOOLS["Tool Execution<br/>tools/ · services/tools/"]
     TOOLS --> QE
-    STATE[State Management\nbootstrap/ · state/] -.->|feeds all layers| QE
+    STATE["State Management<br/>bootstrap/ · state/"] -.->|feeds all layers| QE
     STATE -.-> CLI
     STATE -.-> TOOLS
-    INK[Ink TUI\nink/ · components/ · screens/] -.->|renders everything| REPL
-    SVC[Services\nservices/compact · mcp · analytics · oauth] -.->|underpins| QE
+    INK["Ink TUI<br/>ink/ · components/ · screens/"] -.->|renders everything| REPL
+    SVC["Services<br/>services/compact · mcp · analytics · oauth"] -.->|underpins| QE
 ```
 
 When a user types a message and presses Enter, control begins in `main.tsx`. Before the first React render, `main.tsx` has already fired three parallel warm-up probes (startup profiler checkpoint, MDM raw-read subprocess, keychain prefetch) to shave latency from the critical path. The `setup()` function in `setup.ts` then runs: it validates the Node.js version, establishes the working directory, captures the hooks configuration snapshot, starts the optional UDS messaging socket for agent-swarm teammates, initialises session memory, registers attribution hooks, drains queued analytics events, and finally emits the `tengu_started` beacon that anchors session success-rate metrics.
@@ -67,11 +67,11 @@ Compaction sits inside the loop as a guard before each new model call. If the co
 ```mermaid
 flowchart TD
     AR[API Response] --> EX[Extract tool_use blocks]
-    EX --> PART[Partition: concurrent vs serial\ntoolOrchestration.ts]
+    EX --> PART["Partition: concurrent vs serial<br/>toolOrchestration.ts"]
     PART --> FOR[For each tool batch]
-    FOR --> VAL[Validate input\nZod schema + validateInput]
-    VAL --> PERM[Check permissions\nhasPermissionsToUseTool]
-    PERM --> PRE[Run PreToolUse hooks\ntoolHooks.ts]
+    FOR --> VAL["Validate input<br/>Zod schema + validateInput"]
+    VAL --> PERM["Check permissions<br/>hasPermissionsToUseTool"]
+    PERM --> PRE["Run PreToolUse hooks<br/>toolHooks.ts"]
     PRE --> CALL[tool.call args context]
     CALL --> POST[Run PostToolUse hooks]
     POST --> FMT[Format result / persist if oversized]
@@ -92,9 +92,9 @@ Before and after `tool.call()` runs, the hook system fires `PreToolUse` and `Pos
 ```mermaid
 block-beta
     columns 1
-    block:T1["Tier 1: Bootstrap (bootstrap/state.ts)\nProcess-global singleton · pre-React · no circular deps\nSession ID · cwd · cost accumulators · telemetry handles · model override"]
-    block:T2["Tier 2: AppStateStore (state/AppStateStore.ts)\n~60 fields · Store&lt;AppState&gt; · bridges imperative ↔ React\nConversation messages · permission mode · UI flags · agent state"]
-    block:T3["Tier 3: React Contexts (context/)\n9 providers · narrowly scoped UI concerns\nStats · Notifications · FPS metrics · Mailbox · Modal · Overlay · PromptOverlay · QueuedMessage · Voice"]
+    block:T1["Tier 1: Bootstrap (bootstrap/state.ts)<br/>Process-global singleton · pre-React · no circular deps<br/>Session ID · cwd · cost accumulators · telemetry handles · model override"]
+    block:T2["Tier 2: AppStateStore (state/AppStateStore.ts)<br/>~60 fields · Store&lt;AppState&gt; · bridges imperative ↔ React<br/>Conversation messages · permission mode · UI flags · agent state"]
+    block:T3["Tier 3: React Contexts (context/)<br/>9 providers · narrowly scoped UI concerns<br/>Stats · Notifications · FPS metrics · Mailbox · Modal · Overlay · PromptOverlay · QueuedMessage · Voice"]
 ```
 
 State in Claude Code is divided across three tiers for principled reasons, not historical accident. Tier 1 — the bootstrap singleton in `bootstrap/state.ts` — exists because certain data must be available before React mounts and must be readable by deep utility code that cannot import React without creating circular dependency cycles. The session ID is generated at module-import time via `randomUUID()`; cost and token accumulators are written by the query loop and read at exit for analytics. This tier has no dependencies on application code and is therefore a leaf in the import DAG.

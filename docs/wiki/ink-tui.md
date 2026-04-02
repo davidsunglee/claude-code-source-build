@@ -184,12 +184,12 @@ Text nodes (`ink-text`) and raw-ANSI nodes (`ink-raw-ansi`) register measure fun
 
 ```mermaid
 flowchart TD
-    A["React commit\n(reconciler.ts)"] --> B["Apply styles\n(styles.ts → yoga setters)"]
+    A["React commit<br/>(reconciler.ts)"] --> B["Apply styles<br/>(styles.ts → yoga setters)"]
     B --> C["yogaNode.calculateLayout(terminalWidth)"]
-    C --> D["Text measure callbacks\n(measureText / wrapText)"]
+    C --> D["Text measure callbacks<br/>(measureText / wrapText)"]
     D --> C
-    C --> E["getComputedTop/Left/Width/Height\navailable on each node"]
-    E --> F["renderNodeToOutput\n→ Output operations"]
+    C --> E["getComputedTop/Left/Width/Height<br/>available on each node"]
+    E --> F["renderNodeToOutput<br/>→ Output operations"]
 ```
 
 ---
@@ -200,14 +200,14 @@ Each frame follows this path:
 
 ```mermaid
 flowchart LR
-    A["React state change"] --> B["reconciler\nresetAfterCommit"]
-    B --> C["scheduleRender\n(throttled 8ms)"]
-    C --> D["renderer.ts\ncreateRenderer()"]
-    D --> E["renderNodeToOutput\n→ Output operations"]
-    E --> F["output.get()\n→ Screen cell buffer"]
-    F --> G["diff prev Screen\n→ Patch list"]
-    G --> H["optimizer.ts\nmerge patches"]
-    H --> I["writeDiffToTerminal\n→ ANSI to stdout"]
+    A["React state change"] --> B["reconciler<br/>resetAfterCommit"]
+    B --> C["scheduleRender<br/>(throttled 8ms)"]
+    C --> D["renderer.ts<br/>createRenderer()"]
+    D --> E["renderNodeToOutput<br/>→ Output operations"]
+    E --> F["output.get()<br/>→ Screen cell buffer"]
+    F --> G["diff prev Screen<br/>→ Patch list"]
+    G --> H["optimizer.ts<br/>merge patches"]
+    H --> I["writeDiffToTerminal<br/>→ ANSI to stdout"]
 ```
 
 **`render-node-to-output.ts`** walks the DOM tree depth-first. For each node it:
@@ -276,14 +276,14 @@ The `events/` directory implements a two-phase event system mirroring the browse
 
 ```mermaid
 flowchart TD
-    A["ParsedKey from stdin"] --> B["App.tsx\nparseMultipleKeypresses"]
+    A["ParsedKey from stdin"] --> B["App.tsx<br/>parseMultipleKeypresses"]
     B --> C{"Event type"}
-    C -->|keyboard| D["KeyboardEvent\ndispatchDiscrete via Dispatcher"]
-    C -->|mouse click| E["dispatchClick\nhit-test → ClickEvent bubble"]
-    C -->|mouse move| F["dispatchHover\nonMouseEnter / onMouseLeave"]
-    D --> G["capture phase\nroot → target"]
-    G --> H["bubble phase\ntarget → root"]
-    H --> I["Legacy EventEmitter\n'input' event for useInput"]
+    C -->|keyboard| D["KeyboardEvent<br/>dispatchDiscrete via Dispatcher"]
+    C -->|mouse click| E["dispatchClick<br/>hit-test → ClickEvent bubble"]
+    C -->|mouse move| F["dispatchHover<br/>onMouseEnter / onMouseLeave"]
+    D --> G["capture phase<br/>root → target"]
+    G --> H["bubble phase<br/>target → root"]
+    H --> I["Legacy EventEmitter<br/>'input' event for useInput"]
 ```
 
 `dispatcher.ts` owns the dispatch state and priority mapping:
