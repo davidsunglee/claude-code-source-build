@@ -27,36 +27,36 @@ Then explore whatever interests you. Each page is self-contained.
 
 | Page | Description |
 |------|-------------|
-| [Architecture Overview](architecture-overview.md) | Narrative spine — the full system story with Mermaid diagrams |
-| [Query Engine](query-engine.md) | QueryEngine state machine, conversation loop, compaction strategies |
-| [Tool System](tool-system.md) | Tool type anatomy, ToolUseContext, execution lifecycle |
-| [Tool Catalog](tool-catalog.md) | Complete reference for all 47+ built-in tools |
-| [Command System](command-system.md) | Command types, registration, dispatch, lazy loading |
-| [Command Catalog](command-catalog.md) | Complete reference for all 87+ commands |
+| [Architecture Overview](architecture-overview.md) | Narrative spine — 5 Mermaid diagrams tracing data flow from CLI entry to tool execution |
+| [Query Engine](query-engine.md) | QueryEngine/query() state machine, 6 compaction strategies, stop conditions, system prompt assembly |
+| [Tool System](tool-system.md) | Tool interface anatomy, ToolUseContext, StreamingToolExecutor, permission pipeline |
+| [Tool Catalog](tool-catalog.md) | All 47+ built-in tools cataloged by category with parameters and feature gates |
+| [Command System](command-system.md) | PromptCommand/LocalCommand/LocalJSXCommand types, registration, dispatch, skill loading |
+| [Command Catalog](command-catalog.md) | All 87+ commands cataloged by category with types, aliases, and feature gates |
 
 ### Infrastructure
 
 | Page | Description |
 |------|-------------|
-| [State Management](state-management.md) | Three-tier state: bootstrap globals, Zustand store, React contexts |
-| [Ink TUI](ink-tui.md) | Custom Ink fork — DOM, Yoga layout, rendering pipeline, input system |
-| [Permissions & Security](permissions-security.md) | Permission modes, trust model, bash safety classifier |
+| [State Management](state-management.md) | Bootstrap singletons, AppStateStore (~60 fields), 9 React context providers |
+| [Ink TUI](ink-tui.md) | Custom Ink fork with in-tree Yoga TS port, blit optimizer, Kitty keyboard protocol |
+| [Permissions & Security](permissions-security.md) | Permission modes, deny/allow rules, hook-based overrides, bash safety classifier |
 
 ### Subsystems
 
 | Page | Description |
 |------|-------------|
-| [MCP Integration](mcp-integration.md) | Model Context Protocol — servers, tools, resources, auth |
-| [Task System](task-system.md) | Background tasks, agent spawning, teammates, coordinator mode |
-| [Plugin & Skill System](plugin-skill-system.md) | Plugin architecture, skill discovery, SkillTool |
-| [Service Layer](service-layer.md) | API client, compaction services, analytics, OAuth, LSP |
-| [Component Layer](component-layer.md) | Screens, React components, 85+ hooks, dialog launchers |
-| [Cost Tracking](cost-tracking.md) | Token accounting, per-model pricing, session persistence |
+| [MCP Integration](mcp-integration.md) | MCPServerConnection lifecycle, 8 transport types, tool bridging, OAuth, Claude AI proxy |
+| [Task System](task-system.md) | 7 task variants, LocalShell/LocalAgent/InProcessTeammate/Dream, coordinator mode |
+| [Plugin & Skill System](plugin-skill-system.md) | Plugin loading, skill discovery from directories, SkillTool invocation, cache invalidation |
+| [Service Layer](service-layer.md) | API client with retries, compaction, GrowthBook analytics, OAuth PKCE, LSP integration |
+| [Component Layer](component-layer.md) | REPL/Doctor screens, 31+ component directories, 85+ hooks, dialog launcher pattern |
+| [Cost Tracking](cost-tracking.md) | Per-model token accounting, calculateUSDCost, session persistence, formatTotalCost |
 
 ### Peripheral Systems & Build
 
 | Page | Description |
 |------|-------------|
-| [Peripheral Systems](peripheral-systems.md) | Voice, Vim, Bridge, Remote, Keybindings, Buddy, Migrations |
-| [Build System](build-system.md) | Source map extraction, overlay dependencies, Bun bundling |
-| [Reconstruction Fidelity](reconstruction-fidelity.md) | What's real, what's stubbed, feature flag inventory |
+| [Peripheral Systems](peripheral-systems.md) | Voice, Vim mode, Bridge (32 files), Keybindings, Buddy companion, migrations |
+| [Build System](build-system.md) | Source map extraction, shim generation, stub inference, feature patching, Bun bundle |
+| [Reconstruction Fidelity](reconstruction-fidelity.md) | Stubbed @ant/* packages, native addons, 81-flag inventory, pinned React files |
